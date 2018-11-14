@@ -1,27 +1,28 @@
-function Controls(i){
+function Controls(){
   //Player 1
-  	if(keyDown('d'))
-      players[0].move(moveSpeed);
+    if(keyDown('d'))
+      player.move(moveSpeed);
     if(keyDown('a'))
-      players[0].move(-moveSpeed);
+      player.move(-moveSpeed);
     if(keyWentDown('w'))
-      players[0].jump();
-  	if(keyWentDown('r'))
-      players[i].clone();
+      player.jump();
+    if(keyWentDown('r'))
+      player.clone();
   
   if(keyDown('f'))
       background(255);
   
   //Player 2
-  	if(keyDown('k'))
+    if(keyDown('k'))
       players[1].move(moveSpeed);
     if(keyDown('h'))
       players[1].move(-moveSpeed);
     if(keyWentDown('u'))
-    	players[1].jump();
+      players[1].jump();
 
     if(keyWentDown('z'))
-      players[0].resize(1/1.1);
+      player.resize(1/1.1);
     if(keyWentDown('x'))
-      players[0].resize(1.1);
+      player.resize(1.1);
 }
+
