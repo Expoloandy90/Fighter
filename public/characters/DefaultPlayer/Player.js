@@ -9,6 +9,7 @@ function Player(){
   this.color = 100;
   this.s = createSprite(random(0,550), random(0, 300), this.spriteWeight, this.spriteHeight);
   this.s.addImage(playerIMG);
+
   
   this.hit = function(){
     
@@ -62,7 +63,6 @@ function Player(){
     player.s.velocity.y += gravity;
     
     player.updateClones();
-    
     Controls();
 
     player.s.debug = mouseIsPressed; 

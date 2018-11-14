@@ -15,7 +15,7 @@ function setup() {
 	ground.immovable = true;
   //ground.mouseActive = true;
   player = new Player();
-  //camera.zoom = 2;
+  player.s.width = 2;
 }
 
 function draw() {
@@ -27,7 +27,6 @@ function draw() {
   
   player.updatePlayer();
   drawSprites();
-  
   //camera.off();
 
 }
