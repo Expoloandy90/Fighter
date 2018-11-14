@@ -26,6 +26,7 @@ function Player(){
     this.s.scale *= multiplicator;
     this.s.height *= multiplicator;
     this.s.width *= multiplicator;
+    camera.zoom /= multiplicator;
   }
   
   this.clone = function(){
@@ -33,7 +34,7 @@ function Player(){
     {
       this.clones[this.nrClones++]=new Clone(this.s);
       //this.clones[this.nrClones++]=new Clone(this.s.position.x, this.s.position.y);
-      console.log("hi");
+      //console.log("hi");
     }
     
   }
@@ -50,10 +51,9 @@ function Player(){
         this.clones[i].s.velocity.y += gravity;
     }
   }
-}
 
-function updatePlayer(){
-    if(player.s.collide(ground))   
+  this.updatePlayer = function(){
+      if(player.s.collide(ground))   
     {
       player.s.velocity.x = 0;
       player.s.velocity.y = 0;
@@ -66,5 +66,7 @@ function updatePlayer(){
     Controls();
 
     player.s.debug = mouseIsPressed; 
-  
+
+  }
+
 }

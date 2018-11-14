@@ -1,6 +1,6 @@
 function Clone(player){
   this.s = createSprite(random(player.position.x-100,player.position.x+100), random(player.position.y-100,player.position.y));
-  this.s.addImage(loadImage('player/player.png'));
+  this.s.addImage(playerIMG);
   this.s.collide(ground);
 	
   
