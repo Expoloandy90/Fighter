@@ -6,7 +6,7 @@ var playerIMG;
 
 function preload()
 {
-    playerIMG = loadImage('player/player.png');
+    playerIMG = loadImage("characters/DefaultPlayer/defaultPlayer.png");
 }
 
 function setup() {
