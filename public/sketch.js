@@ -3,6 +3,7 @@ var gravity = 1;
 var moveSpeed = 5;
 var ground;
 var playerIMG;
+var bullets;
 
 function preload()
 {
@@ -16,18 +17,26 @@ function setup() {
   //ground.mouseActive = true;
   player = new Player();
   player.s.width = 2;
+
+  bullets = new Group();
+
 }
 
 function draw() {
 
   background(220);
-  
+
   camera.position.x = player.s.position.x;
   camera.position.y = player.s.position.y;
-  
+
+    player.clones.overlap(bullets, Hit);
+
   player.updatePlayer();
   drawSprites();
   //camera.off();
 
 }
 
+function Hit(){
+
+}
