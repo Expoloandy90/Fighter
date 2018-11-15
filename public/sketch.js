@@ -10,7 +10,6 @@ var socket;
 function preload()
 {
     playerIMG = loadImage("characters/DefaultPlayer/defaultPlayer.png");
-
 }
 
 function setup() {
@@ -31,6 +30,7 @@ function newPlayer(data){
   var data2 = JSON.parse(data);
   player2.s.position.x = data2.x;
   player2.s.position.y = data2.y;
+  player2.s.scale = data2.scale;
 }
 
 function draw() {
@@ -53,6 +53,7 @@ function sendToServer(){
   var data = {
     x : player.s.position.x,
     y : player.s.position.y,
+    scale : player.s.scale
   }
   var myJson = JSON.stringify(data);
   socket.emit('playerData', myJson);

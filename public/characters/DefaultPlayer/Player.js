@@ -31,7 +31,7 @@ function Player(){
     this.s.width *= multiplicator;
     camera.zoom /= multiplicator;
     this.moveSpeed *= multiplicator;
-    this.jumpForce *= multiplicator;
+    //this.jumpForce *= multiplicator;
 
   }
 
