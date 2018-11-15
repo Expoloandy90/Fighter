@@ -17,12 +17,11 @@ io.sockets.on('connection', newConnection);
 function newConnection(socket){
 	console.log('new connection: ' + socket.id);
 	var playerID = socket.id;
-	socket.broadcast.emit('newPlayer', playerID);
+	//socket.broadcast.emit('newPlayer', playerID);
 
-	socket.on('position', positionMsg);
-
-	function positionMsg(data){
+	socket.on('playerData', playerData);
+	function playerData(data){
 		socket.broadcast.emit('position', data);
-		console.log(data + socket.id);
+		//console.log(" " + data);
 	}
 }

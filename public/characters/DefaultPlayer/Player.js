@@ -1,5 +1,7 @@
 function Player(){
   this.HP = 100;
+  this.moveSpeed = 5;
+  this.jumpForce = 12;
   this.clones = new Group();
   this.nrClones = 0;
   this.x = 100;
@@ -7,7 +9,7 @@ function Player(){
   this.spriteWeight = 60;
   this.spriteHeight = 60;
   this.color = 100;
-  this.s = createSprite(random(0,550), random(0, 300), this.spriteWeight, this.spriteHeight);
+  this.s = createSprite(random(0,2000), random(0, 300), this.spriteWeight, this.spriteHeight);
   this.s.addImage(playerIMG);
 
 
@@ -20,7 +22,7 @@ function Player(){
   }
 
   this.jump = function(){
-      this.s.velocity.y = -12;
+      this.s.velocity.y = -this.jumpForce;
   }
 
   this.resize = function(multiplicator){
@@ -28,14 +30,22 @@ function Player(){
     this.s.height *= multiplicator;
     this.s.width *= multiplicator;
     camera.zoom /= multiplicator;
+    this.moveSpeed *= multiplicator;
+    this.jumpForce *= multiplicator;
+
   }
 
   this.cloning = function(){
-    this.clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
-    this.clone.addImage(playerIMG);
-    this.clone.collide(ground);
-    this.clone.HP = 100;
-    this.clones.add(this.clone);
+    if(this.nrClones < 5)
+    {
+        this.clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
+        this.clone.addImage(playerIMG);
+        this.clone.collide(ground);
+        this.clone.HP = 100;
+        this.clones.add(this.clone);
+        this.nrClones++;
+    }
+   
 
 //    if(this.nrClones < 5)
 //    {
