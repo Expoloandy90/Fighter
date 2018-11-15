@@ -15,7 +15,7 @@ function preload()
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  socket = io.connect('http://localhost:8000');
+  socket = io.connect('http://dsscameras.ddns.net:8000');
   ground = createSprite(2500, 1000, 5000, 40);
 	ground.immovable = true;
   //ground.mouseActive = true;
