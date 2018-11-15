@@ -9,9 +9,10 @@ function Player(){
   this.spriteWeight = 60;
   this.spriteHeight = 60;
   this.color = 100;
-  this.s = createSprite(random(0,2000), random(0, 300), this.spriteWeight, this.spriteHeight);
+  this.s = createSprite(random(0,2000), random(0, 1500)/*, this.spriteWeight, this.spriteHeight*/);
   this.s.addImage(playerIMG);
-
+  this.hat = createSprite(this.s.position.x, this.s.position.y);
+  this.hat.addImage(hatIMG);
 
   this.hit = function(){
 
@@ -23,6 +24,7 @@ function Player(){
 
   this.jump = function(){
       this.s.velocity.y = -this.jumpForce;
+      //player.s.attractionPoint(-12, ground.position.x, ground.position.y);
   }
 
   this.resize = function(multiplicator){
@@ -82,14 +84,16 @@ function Player(){
   }
 
   this.updatePlayer = function(){
-      if(player.s.collide(ground))
+    if(player.s.collide(ground))
     {
+      player.s.debug = true;
       player.s.velocity.x = 0;
-      player.s.velocity.y = 0;
+      player.s.velocity.y = 0;    
     }
-
     player.s.velocity.y += gravity;
-
+    this.hat.position.x = this.s.position.x;
+    this.hat.position.y = this.s.position.y;
+    
     player.updateClones();
     Controls();
 
