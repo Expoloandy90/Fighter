@@ -9,14 +9,11 @@ function Controls(){
     if(keyWentDown('r'))
       player.cloning();
 
-  if(keyWentDown('c'))
-  {
-    var bullet = createSprite(player.s.position.x, player.s.position.y, 50, 20);
-    bullet.attractionPoint(10, camera.mouseX, camera.mouseY);
-    bullet.life = 100;
-    bullets.add(bullet);
-  }
-
+  if(mouseWentDown(LEFT))
+    Beam();
+  if(keyIsDown(32))
+player.s.changeAnimation('attack');
+  
   if(keyWentDown('z'))
       player.resize(1/2);
     if(keyWentDown('x'))

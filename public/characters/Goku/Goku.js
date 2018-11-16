@@ -16,10 +16,6 @@ function Goku(){
   this.hair = createSprite(this.s.position.x, this.s.position.y);
   this.hair.addImage(ssjHairIMG);
 
-  this.hit = function(){
-
-  }
-
   this.move = function(dir){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){

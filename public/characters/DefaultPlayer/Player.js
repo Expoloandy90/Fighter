@@ -1,5 +1,5 @@
-function Player(){
-  this.playerID;
+function Player(playerId2){
+  this.playerID = playerId2;
   this.HP = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
@@ -13,22 +13,27 @@ function Player(){
   this.s = createSprite(random(0,2000), random(0, 1500)/*, this.spriteWeight, this.spriteHeight*/);
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
-  this.hat = createSprite(this.s.position.x, this.s.position.y);
-  this.hat.addImage(hatIMG);
+  this.s.addAnimation('attack', player_attack_anim);
 
-  this.hit = function(){
-
-  }
+    this.hat = createSprite(this.s.position.x, this.s.position.y);
+    this.hat.addImage(hatIMG);
+    this.axe = createSprite(this.s.position.x, this.s.position.y);
+    this.axe.addAnimation('walking', axe_anim);
+    this.axe.addAnimation('standing', loadImage("characters/guns/defaultStick.png"));
 
   this.move = function(dir){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){
       this.s.changeAnimation('walking');
+      this.axe.changeAnimation('walking');
       this.s.mirrorX(1);
+      this.axe.mirrorX(1);
     }
     else if(this.s.velocity.x < 0){
       this.s.changeAnimation('walking');
+      this.axe.changeAnimation('walking');
       this.s.mirrorX(-1);
+      this.axe.mirrorX(-1);
     }
   }
 
@@ -68,29 +73,41 @@ function Player(){
         }
         this.clones.get(i).scale = this.s.scale;
         this.clones.get(i).velocity.y += gravity;
+        
+
+        fill('rgb(0,255,0)');
+        textSize(30);
+        textStyle(BOLD);
+        textAlign(CENTER);
+        text(this.clones.get(i).HP, this.clones.get(i).position.x, this.clones.get(i).position.y - 150);
+
+        if(this.clones.get(i).HP <= 0)
+          this.clones.get(i).remove();
     }
   }
 
   this.updatePlayer = function(){
     if(this.s.collide(ground))
     {
-      this.s.debug = true;
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
     }
 
     this.s.changeAnimation('standing');
+    this.axe.changeAnimation('standing');
 
     this.s.velocity.x = 0;
     player.s.velocity.y += gravity;
     this.hat.position.x = this.s.position.x;
     this.hat.position.y = this.s.position.y;
+    this.hat.scale = this.s.scale;
+
+    this.axe.position.x = this.s.position.x;
+    this.axe.position.y = this.s.position.y;
+    this.axe.scale = this.s.scale;
     
     this.updateClones();
     Controls();
-
-    this.s.debug = mouseIsPressed;
-
   }
 
 }
