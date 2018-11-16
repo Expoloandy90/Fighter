@@ -24,4 +24,8 @@ function newConnection(socket){
 		socket.broadcast.emit('position', data);
 		//console.log(" " + data);
 	}
+
+	socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 }

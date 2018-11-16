@@ -1,4 +1,5 @@
 function Player(){
+  this.playerID;
   this.HP = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
@@ -10,7 +11,8 @@ function Player(){
   this.spriteHeight = 60;
   this.color = 100;
   this.s = createSprite(random(0,2000), random(0, 1500)/*, this.spriteWeight, this.spriteHeight*/);
-  this.s.addImage(playerIMG);
+  this.s.addAnimation('standing',playerIMG);
+  this.s.addAnimation('walking', player_walk_anim);
   this.hat = createSprite(this.s.position.x, this.s.position.y);
   this.hat.addImage(hatIMG);
 
@@ -19,12 +21,19 @@ function Player(){
   }
 
   this.move = function(dir){
-    this.s.position.x += dir;
+    this.s.velocity.x += dir;
+    if(this.s.velocity.x > 0){
+      this.s.changeAnimation('walking');
+      this.s.mirrorX(1);
+    }
+    else if(this.s.velocity.x < 0){
+      this.s.changeAnimation('walking');
+      this.s.mirrorX(-1);
+    }
   }
 
   this.jump = function(){
       this.s.velocity.y = -this.jumpForce;
-      //player.s.attractionPoint(-12, ground.position.x, ground.position.y);
   }
 
   this.resize = function(multiplicator){
@@ -33,7 +42,7 @@ function Player(){
     this.s.width *= multiplicator;
     camera.zoom /= multiplicator;
     this.moveSpeed *= multiplicator;
-    //this.jumpForce *= multiplicator;
+    this.hat.scale *= multiplicator;
 
   }
 
@@ -47,15 +56,6 @@ function Player(){
         this.clones.add(this.clone);
         this.nrClones++;
     }
-   
-
-//    if(this.nrClones < 5)
-//    {
-//      this.clones[this.nrClones++]=new Clone(this.s);
-//      //this.clones[this.nrClones++]=new Clone(this.s.position.x, this.s.position.y);
-//      //console.log("hi");
-//    }
-
   }
 
   this.updateClones = function(){
@@ -66,38 +66,30 @@ function Player(){
             this.clones.get(i).velocity.x = 0;
             this.clones.get(i).velocity.y = 0;
         }
-
+        this.clones.get(i).scale = this.s.scale;
         this.clones.get(i).velocity.y += gravity;
     }
-
-
-//    for(var i=0 ;i<this.clones.length; i++)
-//    {
-//        if(this.clones[i].s.collide(ground))
-//        {
-//          this.clones[i].s.velocity.x = 0;
-//         this.clones[i].s.velocity.y = 0;
-//        }
-//
-//        this.clones[i].s.velocity.y += gravity;
-//    }
   }
 
   this.updatePlayer = function(){
-    if(player.s.collide(ground))
+    if(this.s.collide(ground))
     {
-      player.s.debug = true;
-      player.s.velocity.x = 0;
-      player.s.velocity.y = 0;    
+      this.s.debug = true;
+      this.s.velocity.x = 0;
+      this.s.velocity.y = 0;    
     }
+
+    this.s.changeAnimation('standing');
+
+    this.s.velocity.x = 0;
     player.s.velocity.y += gravity;
     this.hat.position.x = this.s.position.x;
     this.hat.position.y = this.s.position.y;
     
-    player.updateClones();
+    this.updateClones();
     Controls();
 
-    player.s.debug = mouseIsPressed;
+    this.s.debug = mouseIsPressed;
 
   }
 
