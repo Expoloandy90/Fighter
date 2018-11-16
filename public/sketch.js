@@ -7,6 +7,7 @@ var playerIMG, earthIMG, hatIMG, ssjHairIMG;
 var player_walk_anim;
 var bullets;
 var characterChosen = 0;
+var flower_sprite_sheet, flowers;
 
 var socket;
 
@@ -16,22 +17,30 @@ function preload()
     earthIMG = loadImage("earth.png");
     hatIMG = loadImage("characters/clothes/hat.png");
     ssjHairIMG = loadImage("characters/Goku/assets/ssjHair.png");
-    player_walk_anim = loadAnimation("characters/DefaultPlayer/defaultPlayerAnimation1.png", "characters/DefaultPlayer/defaultPlayerAnimation2.png", "characters/DefaultPlayer/defaultPlayerAnimation3.png", "characters/DefaultPlayer/defaultPlayerAnimation4.png", "characters/DefaultPlayer/defaultPlayerAnimation5.png");
+    player_walk_anim = loadAnimation("characters/DefaultPlayer/stickman.png", "characters/DefaultPlayer/stickman2.png", "characters/DefaultPlayer/stickman3.png", "characters/DefaultPlayer/stickman4.png", "characters/DefaultPlayer/stickman5.png", "characters/DefaultPlayer/stickman6.png");
+    var flower_frame = loadJSON('assets/flowersSprites.json');
+    flower_sprite_sheet = loadSpriteSheet('assets/flower.png', flower_frame);
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   socket = io.connect('http://dsscameras.ddns.net:8000');
   ground = createSprite(0, 2000, 5000, 40);
-  // ground.addImage(earthIMG);
-  // ground.setCollider("circle");
-  //ground.scale = 4;
-	//ground.immovable = true;
   ground.debug = true;
 
   player2 = new Player();
-  //player.s.collide(player2.s);
   bullets = new Group();
+
+  flowers = new Group();
+  for(var i=0; i<10; i++)
+  {
+    //create a sprite and add the 3 animations
+    var flower = createSprite(random(-2500, 2500), 2000);
+    //cycles through rocks 0 1 2
+    var flowerAnimation = loadAnimation(flower_sprite_sheet);
+    flower.addAnimation('normal', flowerAnimation);
+    flowers.add(flower);
+  }
 
   socket.on('position', newPlayer);
 }

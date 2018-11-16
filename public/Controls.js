@@ -13,7 +13,7 @@ function Controls(){
   {
     var bullet = createSprite(player.s.position.x, player.s.position.y, 50, 20);
     bullet.attractionPoint(10, camera.mouseX, camera.mouseY);
-    bullet.life = 50;
+    bullet.life = 100;
     bullets.add(bullet);
   }
 
@@ -23,16 +23,6 @@ function Controls(){
       player.resize(2);
 
   if(keyDown('f'))
-      background(255);
-
-  // //Player 2
-  //   if(keyDown('k'))
-  //     players[1].move(moveSpeed);
-  //   if(keyDown('h'))
-  //     players[1].move(-moveSpeed);
-  //   if(keyWentDown('u'))
-  //     players[1].jump();
-
-    
+      background(255);    
 }
 

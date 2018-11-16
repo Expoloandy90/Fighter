@@ -7,7 +7,7 @@ function sendToServer(){
     rotation : player.s.rotation
   }
   var myJson = JSON.stringify(data);
-  socket.emit('playerData', myJson);
+  socket.emit('playerData', data);
 }
 
 function newPlayer(data){
