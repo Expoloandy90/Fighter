@@ -1,4 +1,10 @@
-function Player(x, y){
+var luffySuitIMG;
+
+function preloadLuffy(){
+  luffySuitIMG = loadImage("characters/Luffy/defaultLuffy.png");
+}
+
+function Luffy(x, y){
   this.playerSprites = new Group();
   this.playerID;
   this.HP = 100;
@@ -10,16 +16,12 @@ function Player(x, y){
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
   this.s.addAnimation('attack', player_attack_anim);
-  this.hat = createSprite(this.s.position.x, this.s.position.y);
-  this.hat.addImage(hatIMG);
-  this.axe = createSprite(this.s.position.x, this.s.position.y);
-  this.axe.addAnimation('walking', axe_anim);
-  this.axe.addAnimation('standing', loadImage("characters/guns/defaultStick.png"));
+  this.suit = createSprite(this.s.position.x, this.s.position.y);
+  this.suit.addImage(luffySuitIMG);
 
   this.remove = function(){
     this.playerSprites.add(this.s);
-    this.playerSprites.add(this.hat);
-    this.playerSprites.add(this.axe);
+    this.playerSprites.add(this.suit);
     this.playerSprites.removeSprites();
   }
 
@@ -27,15 +29,11 @@ function Player(x, y){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){
       this.s.changeAnimation('walking');
-      this.axe.changeAnimation('walking');
       this.s.mirrorX(1);
-      this.axe.mirrorX(1);
     }
     else if(this.s.velocity.x < 0){
       this.s.changeAnimation('walking');
-      this.axe.changeAnimation('walking');
       this.s.mirrorX(-1);
-      this.axe.mirrorX(-1);
     }
   }
 
@@ -50,7 +48,6 @@ function Player(x, y){
       this.s.width *= multiplicator;
       camera.zoom /= multiplicator;
       this.moveSpeed *= multiplicator;
-      this.hat.scale *= multiplicator;
     }
     
 
@@ -104,19 +101,13 @@ function Player(x, y){
     }
 
     this.s.changeAnimation('standing');
-    this.axe.changeAnimation('standing');
     
     this.s.debug = true;
 
     this.s.velocity.x = 0;
     player.s.velocity.y += gravity;
-    this.hat.position.x = this.s.position.x;
-    this.hat.position.y = this.s.position.y;
-    this.hat.scale = this.s.scale;
-
-    this.axe.position.x = this.s.position.x;
-    this.axe.position.y = this.s.position.y;
-    this.axe.scale = this.s.scale;
+    this.suit.position.x = this.s.position.x;
+    this.suit.position.y = this.s.position.y;
     
     this.updateClones();
     Controls();

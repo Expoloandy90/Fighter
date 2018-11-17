@@ -12,6 +12,7 @@ function preload()
 {
     preloadEnvironment();
     preloadGoku();
+    preloadLuffy();
     preloadClothes();
     playerIMG = loadImage("characters/DefaultPlayer/defaultPlayer.png");
     earthIMG = loadImage("earth.png");

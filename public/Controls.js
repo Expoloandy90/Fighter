@@ -13,8 +13,12 @@ function Controls(){
 
   if(mouseWentDown(LEFT))
     Beam();
-  if(keyIsDown(32))
-player.s.changeAnimation('attack');
+  if(keyDown(32)){
+    player.s.changeAnimation('attack');
+    player.s.overlap(player.clones, function(s,clone){
+      clone.HP -= 50;
+    });
+  }
   
   if(keyWentDown('z'))
       player.resize(1/2);

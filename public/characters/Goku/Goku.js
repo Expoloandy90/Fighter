@@ -1,8 +1,12 @@
-var ssjHairIMG, sayanHairIMG;
+var ssjHairIMG, sayanHairIMG, defaultAuraIMG;
+var defaultAuraAnim, ssjAuraAnim;
 
 function preloadGoku(){
   sayanHairIMG = loadImage("characters/hair/hair1.png");
   ssjHairIMG = loadImage("characters/Goku/assets/ssjHair.png");
+  defaultAuraIMG = loadImage("characters/aura/defaultAura.png")
+  defaultAuraAnim = loadAnimation("characters/aura/defaultAura3.png", "characters/aura/defaultAura2.png", "characters/aura/defaultAura1.png", "characters/aura/defaultAura.png");
+  ssjAuraAnim = loadAnimation("characters/aura/ssjAura1.png", "characters/aura/ssjAura2.png","characters/aura/ssjAura3.png", "characters/aura/ssjAura4.png");
 }
 
 function Goku(x, y){
@@ -14,17 +18,17 @@ function Goku(x, y){
   this.jumpForce = 12;
   this.clones = new Group();
   this.nrClones = 0;
-  this.x = 100;
-  this.y = 100;
-  this.spriteWeight = 60;
-  this.spriteHeight = 60;
   this.color = 100;
   this.s = createSprite(x, y);
-  this.s.width = 100;
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
+  this.s.addAnimation('attack', player_attack_anim);
   this.hair = createSprite(this.s.position.x, this.s.position.y);
   this.hair.addImage(sayanHairIMG);
+  this.aura = createSprite(this.s.position.x, this.s.position.y);
+  this.aura.addAnimation('defaultAura', defaultAuraAnim);
+  this.aura.addAnimation('ssjAura', ssjAuraAnim);
+  this.aura.visible = false;
 
   this.remove = function(){
     this.playerSprites.add(this.s);
@@ -63,11 +67,11 @@ function Goku(x, y){
   this.cloning = function(){
     if(this.nrClones < 5)
     {
-        this.clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
-        this.clone.addImage(playerIMG);
-        this.clone.collide(ground);
-        this.clone.HP = 100;
-        this.clones.add(this.clone);
+        var clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
+        clone.addImage(playerIMG);
+        clone.collide(ground);
+        clone.HP = 100;
+        this.clones.add(clone);
         this.nrClones++;
     }
   }
@@ -80,30 +84,61 @@ function Goku(x, y){
             this.clones.get(i).velocity.x = 0;
             this.clones.get(i).velocity.y = 0;
         }
-
+        this.clones.get(i).scale = this.s.scale;
+        this.clones.get(i).width = this.s.width;
+        this.clones.get(i).height = this.s.height;
         this.clones.get(i).velocity.y += gravity;
+        this.clones.get(i).debug = true;
+        
+
+        fill('rgb(0,255,0)');
+        textSize(30);
+        textStyle(BOLD);
+        textAlign(CENTER);
+        text(this.clones.get(i).HP, this.clones.get(i).position.x, this.clones.get(i).position.y - 150);
+
+        if(this.clones.get(i).HP <= 0){
+          this.clones.get(i).remove();
+          this.nrClones--;
+        }
     }
   }
 
   this.updatePlayer = function(){
-    if(this.s.collide(ground)){
-      this.s.debug = true;
+    if(this.s.collide(ground))
+    {
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
     }
-
-    this.s.changeAnimation('standing');
-
     this.s.velocity.x = 0;
-    player.s.velocity.y += gravity;
+    this.s.changeAnimation('standing');
     this.hair.position.x = this.s.position.x;
     this.hair.position.y = this.s.position.y;
+    this.aura.position.x = this.s.position.x;
+    this.aura.position.y = this.s.position.y;
+    this.s.debug = true;
     
+    if(keyDown('E')){
+      this.energy += 1;
+      // image(defaultAuraIMG, this.s.position.x - 150, this.s.position.y - 250);
+      // image(defaultAuraIMG, this.s.position.x - 150, this.s.position.y - 200);
+      this.aura.visible = true;
+     } else this.aura.visible = false;
+
+     if(keyWentDown('S')){
+      this.hair.addImage(sayanHairIMG);
+      this.aura.changeAnimation('defaultAura');
+     }else if(keyWentDown('T')){
+      if(this.energy >= 100){
+        this.energy -= 100;
+        this.hair.addImage(ssjHairIMG);
+        this.aura.changeAnimation('ssjAura');
+      }
+     }
+
+    player.s.velocity.y += gravity;    
     this.updateClones();
     Controls();
-
-    this.s.debug = mouseIsPressed;
-
   }
 
 }

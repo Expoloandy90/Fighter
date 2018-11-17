@@ -3,12 +3,26 @@ var characterChosen = 1;
 function CharacterSelection(){
 	if(keyWentDown(LEFT_ARROW)){
 		player.remove();
-		player = new Player(windowWidth/2, windowHeight/2);
+		if(characterChosen > 1)
+			characterChosen--;
+		displayCharacters();
 	}
 	if(keyWentDown(RIGHT_ARROW)){
 		player.remove();
+		if(characterChosen < 3)
+			characterChosen++;
+		displayCharacters();
+	}
+
+	function displayCharacters(){
+		if(characterChosen == 1)
+		player = new Player(windowWidth/2, windowHeight/2);
+	else if(characterChosen == 2)
+		player = new Luffy(windowWidth/2, windowHeight/2);
+	else if(characterChosen == 3)
 		player = new Goku(windowWidth/2, windowHeight/2);
 	}
+
 	if(keyWentDown(ENTER)){
 		player.s.position.x = random(-1000, 1000);
 		player.s.position.y = random(1500, 2000);
