@@ -30,17 +30,17 @@ io.sockets.on('connection', newConnection);
 function newConnection(socket){
 	console.log('new connection: ' + socket.id);
 
-	socket.on('newPlayer', newPlayer);
-	function newPlayer(data){
-		players.push(new Player(socket.id));
-		// data.playerID = socket.id;
-		// socket.broadcast.emit('newPlayerServer', data);
-	}
+	// socket.on('newPlayer', newPlayer);
+	// function newPlayer(data){
+	// 	players.push(new Player(socket.id));
+	// 	// data.playerID = socket.id;
+	// 	// socket.broadcast.emit('newPlayerServer', data);
+	// }
 
-	socket.on('playerUpdate', playerData);
-	function playerData(data){
-		socket.broadcast.emit('updatePlayers', data);
-	}
+	// socket.on('playerUpdate', playerData);
+	// function playerData(data){
+	// 	socket.broadcast.emit('updatePlayers', data);
+	// }
 
 	socket.on('disconnect', function(){
     console.log('user disconnected');

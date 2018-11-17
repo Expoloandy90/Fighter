@@ -20,6 +20,7 @@ function Goku(x, y){
   this.spriteHeight = 60;
   this.color = 100;
   this.s = createSprite(x, y);
+  this.s.width = 100;
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
   this.hair = createSprite(this.s.position.x, this.s.position.y);
