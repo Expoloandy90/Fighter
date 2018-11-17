@@ -1,5 +1,6 @@
-function Player(playerId2){
-  this.playerID = playerId2;
+function Player(x, y){
+  this.playerSprites = new Group();
+  this.playerID;
   this.HP = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
@@ -7,19 +8,22 @@ function Player(playerId2){
   this.nrClones = 0;
   this.x = 100;
   this.y = 100;
-  this.spriteWeight = 60;
-  this.spriteHeight = 60;
-  this.color = 100;
-  this.s = createSprite(random(0,2000), random(0, 1500)/*, this.spriteWeight, this.spriteHeight*/);
+  this.s = createSprite(x, y);
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
   this.s.addAnimation('attack', player_attack_anim);
+  this.hat = createSprite(this.s.position.x, this.s.position.y);
+  this.hat.addImage(hatIMG);
+  this.axe = createSprite(this.s.position.x, this.s.position.y);
+  this.axe.addAnimation('walking', axe_anim);
+  this.axe.addAnimation('standing', loadImage("characters/guns/defaultStick.png"));
 
-    this.hat = createSprite(this.s.position.x, this.s.position.y);
-    this.hat.addImage(hatIMG);
-    this.axe = createSprite(this.s.position.x, this.s.position.y);
-    this.axe.addAnimation('walking', axe_anim);
-    this.axe.addAnimation('standing', loadImage("characters/guns/defaultStick.png"));
+  this.remove = function(){
+    this.playerSprites.add(this.s);
+    this.playerSprites.add(this.hat);
+    this.playerSprites.add(this.axe);
+    this.playerSprites.removeSprites();
+  }
 
   this.move = function(dir){
     this.s.velocity.x += dir;
@@ -72,6 +76,8 @@ function Player(playerId2){
             this.clones.get(i).velocity.y = 0;
         }
         this.clones.get(i).scale = this.s.scale;
+        this.clones.get(i).width = this.s.width;
+        this.clones.get(i).height = this.s.height;
         this.clones.get(i).velocity.y += gravity;
         
 

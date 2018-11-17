@@ -1,3 +1,5 @@
+
+
 function Controls(){
   //Player 1
     if(keyDown('d'))

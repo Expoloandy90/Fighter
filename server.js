@@ -29,15 +29,17 @@ io.sockets.on('connection', newConnection);
 
 function newConnection(socket){
 	console.log('new connection: ' + socket.id);
-	
-	players.push(new Player(socket.id));
 
-	//socket.broadcast.emit('newPlayer', playerID);
+	socket.on('newPlayer', newPlayer);
+	function newPlayer(data){
+		players.push(new Player(socket.id));
+		// data.playerID = socket.id;
+		// socket.broadcast.emit('newPlayerServer', data);
+	}
 
-	socket.on('playerData', playerData);
+	socket.on('playerUpdate', playerData);
 	function playerData(data){
-		socket.broadcast.emit('playersData', data);
-		//console.log(" " + data);
+		socket.broadcast.emit('updatePlayers', data);
 	}
 
 	socket.on('disconnect', function(){

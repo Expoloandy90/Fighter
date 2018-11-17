@@ -1,6 +1,15 @@
-function Goku(){
+var ssjHairIMG, sayanHairIMG;
+
+function preloadGoku(){
+  sayanHairIMG = loadImage("characters/hair/hair1.png");
+  ssjHairIMG = loadImage("characters/Goku/assets/ssjHair.png");
+}
+
+function Goku(x, y){
+  this.playerSprites = new Group();
 	this.playerID;
   this.HP = 100;
+  this.energy = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
   this.clones = new Group();
@@ -10,11 +19,17 @@ function Goku(){
   this.spriteWeight = 60;
   this.spriteHeight = 60;
   this.color = 100;
-  this.s = createSprite(random(0,2000), random(0, 1500)/*, this.spriteWeight, this.spriteHeight*/);
+  this.s = createSprite(x, y);
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
   this.hair = createSprite(this.s.position.x, this.s.position.y);
-  this.hair.addImage(ssjHairIMG);
+  this.hair.addImage(sayanHairIMG);
+
+  this.remove = function(){
+    this.playerSprites.add(this.s);
+    this.playerSprites.add(this.hair);
+    this.playerSprites.removeSprites();
+  }
 
   this.move = function(dir){
     this.s.velocity.x += dir;
