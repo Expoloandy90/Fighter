@@ -18,13 +18,13 @@ function Goku(x, y){
   this.jumpForce = 12;
   this.clones = new Group();
   this.nrClones = 0;
-  this.color = 100;
   this.s = createSprite(x, y);
   this.s.addAnimation('standing',playerIMG);
   this.s.addAnimation('walking', player_walk_anim);
   this.s.addAnimation('attack', player_attack_anim);
   this.hair = createSprite(this.s.position.x, this.s.position.y);
-  this.hair.addImage(sayanHairIMG);
+  this.hair.addImage('sayanHair',sayanHairIMG);
+  this.hair.addImage('ssjHair',ssjHairIMG);
   this.aura = createSprite(this.s.position.x, this.s.position.y);
   this.aura.addAnimation('defaultAura', defaultAuraAnim);
   this.aura.addAnimation('ssjAura', ssjAuraAnim);
@@ -116,22 +116,20 @@ function Goku(x, y){
     this.hair.position.y = this.s.position.y;
     this.aura.position.x = this.s.position.x;
     this.aura.position.y = this.s.position.y;
-    this.s.debug = true;
     
     if(keyDown('E')){
       this.energy += 1;
-      // image(defaultAuraIMG, this.s.position.x - 150, this.s.position.y - 250);
-      // image(defaultAuraIMG, this.s.position.x - 150, this.s.position.y - 200);
       this.aura.visible = true;
      } else this.aura.visible = false;
 
      if(keyWentDown('S')){
-      this.hair.addImage(sayanHairIMG);
+      this.hair.changeImage('sayanHair');
       this.aura.changeAnimation('defaultAura');
-     }else if(keyWentDown('T')){
+     }
+     if(keyWentDown('T')){
       if(this.energy >= 100){
         this.energy -= 100;
-        this.hair.addImage(ssjHairIMG);
+        this.hair.changeImage('ssjHair');
         this.aura.changeAnimation('ssjAura');
       }
      }

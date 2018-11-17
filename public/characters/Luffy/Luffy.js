@@ -101,8 +101,6 @@ function Luffy(x, y){
     }
 
     this.s.changeAnimation('standing');
-    
-    this.s.debug = true;
 
     this.s.velocity.x = 0;
     player.s.velocity.y += gravity;
