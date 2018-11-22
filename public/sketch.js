@@ -18,6 +18,7 @@ function preload()
     player_walk_anim = loadAnimation("characters/DefaultPlayer/defaultPlayerAnimation1.png", "characters/DefaultPlayer/defaultPlayerAnimation2.png", "characters/DefaultPlayer/defaultPlayerAnimation3.png", "characters/DefaultPlayer/defaultPlayerAnimation4.png", "characters/DefaultPlayer/defaultPlayerAnimation5.png");
     axe_anim = loadAnimation("characters/guns/defaultStick1.png", "characters/guns/defaultStick2.png", "characters/guns/defaultStick3.png", "characters/guns/defaultStick4.png", "characters/guns/defaultStick5.png")
     player_attack_anim = loadAnimation("characters/DefaultPlayer/defaultPlayerAttack1.png", "characters/DefaultPlayer/defaultPlayerAttack2.png", "characters/DefaultPlayer/defaultPlayerAttack3.png", "characters/DefaultPlayer/defaultPlayerAttack4.png", "characters/DefaultPlayer/defaultPlayerAttack5.png", "characters/DefaultPlayer/defaultPlayerAttack6.png", "characters/DefaultPlayer/defaultPlayerAttack7.png", "characters/DefaultPlayer/defaultPlayerAttack8.png", "characters/DefaultPlayer/defaultPlayerAttack9.png", "characters/DefaultPlayer/defaultPlayerAttack10.png");
+    player_attack_anim.looping = false;
 }
 
 function setup() {
@@ -68,6 +69,7 @@ function UI(){
   textAlign(CENTER);
   text("HP " + player.HP, 100, 100);
   fill('rgb(0, 0, 255)');
+  if(player.energy != undefined)
   text("Energy " + player.energy, 100, 150);
 }
 

@@ -1,13 +1,17 @@
 var luffySuitIMG;
+var luffySuitAnimation;
 
 function preloadLuffy(){
   luffySuitIMG = loadImage("characters/Luffy/defaultLuffy.png");
+  for(var i=1; i<=5; i++)
+  luffySuitAnimation = loadAnimation("characters/Luffy/LuffyAnimation1.png", "characters/Luffy/LuffyAnimation2.png", "characters/Luffy/LuffyAnimation3.png", "characters/Luffy/LuffyAnimation4.png", "characters/Luffy/LuffyAnimation5.png");
 }
 
 function Luffy(x, y){
   this.playerSprites = new Group();
   this.playerID;
   this.HP = 100;
+  this.power = 2;
   this.moveSpeed = 5;
   this.jumpForce = 12;
   this.clones = new Group();
@@ -17,7 +21,8 @@ function Luffy(x, y){
   this.s.addAnimation('walking', player_walk_anim);
   this.s.addAnimation('attack', player_attack_anim);
   this.suit = createSprite(this.s.position.x, this.s.position.y);
-  this.suit.addImage(luffySuitIMG);
+  this.suit.addAnimation('standing', luffySuitIMG);
+  this.suit.addAnimation('walking', luffySuitAnimation);
 
   this.remove = function(){
     this.playerSprites.add(this.s);
@@ -29,11 +34,15 @@ function Luffy(x, y){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){
       this.s.changeAnimation('walking');
+      this.suit.changeAnimation('walking');
       this.s.mirrorX(1);
+      this.suit.mirrorX(1);
     }
     else if(this.s.velocity.x < 0){
       this.s.changeAnimation('walking');
+      this.suit.changeAnimation('walking');
       this.s.mirrorX(-1);
+      this.suit.mirrorX(-1);
     }
   }
 
@@ -77,9 +86,7 @@ function Luffy(x, y){
         this.clones.get(i).width = this.s.width;
         this.clones.get(i).height = this.s.height;
         this.clones.get(i).velocity.y += gravity;
-        this.clones.get(i).debug = true;
         
-
         fill('rgb(0,255,0)');
         textSize(30);
         textStyle(BOLD);
@@ -98,9 +105,20 @@ function Luffy(x, y){
     {
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
-    }
+    }    
 
-    this.s.changeAnimation('standing');
+    if(this.s.getAnimationLabel() != 'attack'){
+      this.s.changeAnimation('standing');
+      this.suit.changeAnimation('standing');
+    }
+    if(this.s.getAnimationLabel() == 'attack' && this.s.animation.getFrame() == 5){
+      this.s.overlap(player.clones, function(s,clone){
+        var damage = 25 * player.power;
+        clone.HP -= damage;
+      });
+      this.s.animation.nextFrame();
+      this.s.animation.play();
+    }
 
     this.s.velocity.x = 0;
     player.s.velocity.y += gravity;

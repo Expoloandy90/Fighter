@@ -13,6 +13,7 @@ function Goku(x, y){
   this.playerSprites = new Group();
 	this.playerID;
   this.HP = 100;
+  this.power = 2;
   this.energy = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
@@ -88,7 +89,6 @@ function Goku(x, y){
         this.clones.get(i).width = this.s.width;
         this.clones.get(i).height = this.s.height;
         this.clones.get(i).velocity.y += gravity;
-        this.clones.get(i).debug = true;
         
 
         fill('rgb(0,255,0)');
@@ -111,12 +111,26 @@ function Goku(x, y){
       this.s.velocity.y = 0;    
     }
     this.s.velocity.x = 0;
-    this.s.changeAnimation('standing');
+    
     this.hair.position.x = this.s.position.x;
     this.hair.position.y = this.s.position.y;
     this.aura.position.x = this.s.position.x;
     this.aura.position.y = this.s.position.y;
+
+    //Changing punch animation
+    if(this.s.getAnimationLabel() != 'attack'){
+      this.s.changeAnimation('standing');
+    }
+    if(this.s.getAnimationLabel() == 'attack' && this.s.animation.getFrame() == 5){
+      this.s.overlap(player.clones, function(s,clone){
+        var damage = 25 * player.power;
+        clone.HP -= damage;
+      });
+      this.s.animation.nextFrame();
+      this.s.animation.play();
+    }
     
+
     if(keyDown('E')){
       this.energy += 1;
       this.aura.visible = true;
@@ -129,6 +143,7 @@ function Goku(x, y){
      if(keyWentDown('T')){
       if(this.energy >= 100){
         this.energy -= 100;
+        this.power *= 2;
         this.hair.changeImage('ssjHair');
         this.aura.changeAnimation('ssjAura');
       }

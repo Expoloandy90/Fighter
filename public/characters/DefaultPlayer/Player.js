@@ -2,6 +2,8 @@ function Player(x, y){
   this.playerSprites = new Group();
   this.playerID;
   this.HP = 100;
+  this.power = 2;
+  this.energy = 100;
   this.moveSpeed = 5;
   this.jumpForce = 12;
   this.clones = new Group();
@@ -51,6 +53,7 @@ function Player(x, y){
       camera.zoom /= multiplicator;
       this.moveSpeed *= multiplicator;
       this.hat.scale *= multiplicator;
+      this.axe.scale *= multiplicator;
     }
     
 
@@ -80,7 +83,6 @@ function Player(x, y){
         this.clones.get(i).width = this.s.width;
         this.clones.get(i).height = this.s.height;
         this.clones.get(i).velocity.y += gravity;
-        this.clones.get(i).debug = true;
         
 
         fill('rgb(0,255,0)');
@@ -102,20 +104,33 @@ function Player(x, y){
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
     }
-
-    this.s.changeAnimation('standing');
-    this.axe.changeAnimation('standing');
-
     this.s.velocity.x = 0;
-    player.s.velocity.y += gravity;
+
     this.hat.position.x = this.s.position.x;
     this.hat.position.y = this.s.position.y;
-    this.hat.scale = this.s.scale;
-
     this.axe.position.x = this.s.position.x;
     this.axe.position.y = this.s.position.y;
-    this.axe.scale = this.s.scale;
     
+
+    
+
+    //Changing punch animation
+    if(this.s.getAnimationLabel() != 'attack'){
+      this.s.changeAnimation('standing');
+    }
+    if(this.s.getAnimationLabel() == 'attack' && this.s.animation.getFrame() == 5){
+      this.s.overlap(player.clones, function(s,clone){
+        var damage = 25 * player.power;
+        clone.HP -= damage;
+      });
+      this.s.animation.nextFrame();
+      this.s.animation.play();
+    }
+    this.axe.changeAnimation('standing');
+
+    
+    
+    player.s.velocity.y += gravity;
     this.updateClones();
     Controls();
   }
