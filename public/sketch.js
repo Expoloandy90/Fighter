@@ -36,7 +36,9 @@ function setup() {
 
 
 function draw() {
-  background(220);
+  if(player.s.position.y < 2000 &&  player.s.position.y > 1000)
+    background('rgb(135,206,250)');
+  else background('rgb(25,25,112)');
 
   if(characterChosen == 0){
     

@@ -1,6 +1,8 @@
 var characterChosen = 1;
 
 function CharacterSelection(){
+	background('rgb(135,206,250)');
+	
 	if(keyWentDown(LEFT_ARROW)){
 		player.remove();
 		if(characterChosen > 1)
