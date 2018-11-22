@@ -1,4 +1,3 @@
-var mPlayers = [];
 var player;
 var player2;
 var gravity = 1;

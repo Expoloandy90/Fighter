@@ -13,8 +13,12 @@ function Controls(){
 
   if(mouseWentDown(LEFT))
     Beam();
-  if(keyDown(32)){
+
+  //Attack melee
+  if(keyIsDown(32)){
     player.s.changeAnimation('attack');
+    player.s.animation.rewind();
+    player.s.animation.looping = false;
     player.s.overlap(player.clones, function(s,clone){
       clone.HP -= 50;
     });
