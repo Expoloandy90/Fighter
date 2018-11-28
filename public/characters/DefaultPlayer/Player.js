@@ -16,7 +16,7 @@ function Player(x, y){
   this.power = 2;
   this.energy = 100;
   this.moveSpeed = 5;
-  this.jumpForce = 15;
+  this.jumpForce = 20;
   this.clones = new Group();
   this.nrClones = 0;
   this.s = createSprite(x, y, 100, 300);

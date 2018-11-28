@@ -13,6 +13,7 @@ function preload()
     preloadGoku();
     preloadLuffy();
     preloadClothes();
+    generateTerrain();
     earthIMG = loadImage("earth.png");
 }
 
@@ -32,7 +33,7 @@ function setup() {
 
 
 function draw() {
-  if(player.s.position.y < 2000 &&  player.s.position.y > 1000)
+  if(player.s.position.y < 2000 &&  player.s.position.y > 0)
     background('rgb(135,206,250)');
   else background('rgb(25,25,112)');
 
@@ -43,10 +44,12 @@ function draw() {
     camera.rotation = player.s.rotation;
 
     player.clones.displace(bullets, Hit);
+    blocks.displace(bullets, distroy);
     player.updatePlayer();
 
     sendToServer();
     drawSprites();
+    updateTerrain();
     camera.off();
     UI();
   }
@@ -57,6 +60,11 @@ function draw() {
 function Hit(clone, bullet){
   bullet.remove();
   clone.HP -= 50;
+}
+
+function distroy(block, bullet){
+  block.remove();
+  bullet.remove();
 }
 
 function UI(){
