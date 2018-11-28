@@ -16,8 +16,8 @@ function Controls(){
 
   //Attack melee
   if(keyWentDown(32)){
-    player.s.changeAnimation('attack');
-    player.s.animation.rewind();
+    player.sBody.changeAnimation('attack');
+    player.sBody.animation.rewind();
   }
   
   if(keyWentDown('z'))

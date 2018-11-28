@@ -16,13 +16,15 @@ function Player(x, y){
   this.power = 2;
   this.energy = 100;
   this.moveSpeed = 5;
-  this.jumpForce = 12;
+  this.jumpForce = 15;
   this.clones = new Group();
   this.nrClones = 0;
-  this.s = createSprite(x, y);
-  this.s.addAnimation('standing',playerIMG);
-  this.s.addAnimation('walking', player_walk_anim);
-  this.s.addAnimation('attack', player_attack_anim);
+  this.s = createSprite(x, y, 100, 300);
+  this.s.visible = false
+  this.sBody = createSprite(this.s.position.x, this.s.position.y);  
+  this.sBody.addAnimation('standing',playerIMG);
+  this.sBody.addAnimation('walking', player_walk_anim);
+  this.sBody.addAnimation('attack', player_attack_anim);
   this.hat = createSprite(this.s.position.x, this.s.position.y);
   this.hat.addImage(hatIMG);
   this.axe = createSprite(this.s.position.x, this.s.position.y);
@@ -39,15 +41,15 @@ function Player(x, y){
   this.move = function(dir){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){
-      this.s.changeAnimation('walking');
+      this.sBody.changeAnimation('walking');
       this.axe.changeAnimation('walking');
-      this.s.mirrorX(1);
+      this.sBody.mirrorX(1);
       this.axe.mirrorX(1);
     }
     else if(this.s.velocity.x < 0){
-      this.s.changeAnimation('walking');
+      this.sBody.changeAnimation('walking');
       this.axe.changeAnimation('walking');
-      this.s.mirrorX(-1);
+      this.sBody.mirrorX(-1);
       this.axe.mirrorX(-1);
     }
   }
@@ -58,7 +60,9 @@ function Player(x, y){
 
   this.resize = function(multiplicator){
     if(this.s.height * multiplicator <= 2400 && this.s.height >= 75 * multiplicator){
-      this.s.scale *= multiplicator;
+      if(multiplicator > 1)
+      this.s.position.y -= 1000;
+      this.sBody.scale *= multiplicator;
       this.s.height *= multiplicator;
       this.s.width *= multiplicator;
       camera.zoom /= multiplicator;
@@ -75,7 +79,7 @@ function Player(x, y){
     {
         var clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
         clone.addImage(playerIMG);
-        clone.collide(ground);
+        clone.collide(blocks);
         clone.HP = 100;
         this.clones.add(clone);
         this.nrClones++;
@@ -85,7 +89,7 @@ function Player(x, y){
   this.updateClones = function(){
     for(var i=0; i<this.clones.size(); i++)
     {
-        if(this.clones.collide(ground))
+        if(this.clones.collide(blocks))
         {
             this.clones.get(i).velocity.x = 0;
             this.clones.get(i).velocity.y = 0;
@@ -110,12 +114,15 @@ function Player(x, y){
   }
 
   this.updatePlayer = function(){
-    if(this.s.collide(ground))
+    if(this.s.collide(blocks))
     {
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
     }
     this.s.velocity.x = 0;
+
+    this.sBody.position.x = this.s.position.x;
+    this.sBody.position.y = this.s.position.y;
 
     this.hat.position.x = this.s.position.x;
     this.hat.position.y = this.s.position.y;
@@ -126,16 +133,16 @@ function Player(x, y){
     
 
     //Changing punch animation
-    if(this.s.getAnimationLabel() != 'attack'){
-      this.s.changeAnimation('standing');
+    if(this.sBody.getAnimationLabel() != 'attack'){
+      this.sBody.changeAnimation('standing');
     }
-    if(this.s.getAnimationLabel() == 'attack' && this.s.animation.getFrame() == 5){
-      this.s.overlap(player.clones, function(s,clone){
+    if(this.sBody.getAnimationLabel() == 'attack' && this.sBody.animation.getFrame() == 5){
+      this.sBody.overlap(player.clones, function(s,clone){
         var damage = 25 * player.power;
         clone.HP -= damage;
       });
-      this.s.animation.nextFrame();
-      this.s.animation.play();
+      this.sBody.animation.nextFrame();
+      this.sBody.animation.play();
     }
     this.axe.changeAnimation('standing');
 

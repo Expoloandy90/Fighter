@@ -14,16 +14,16 @@ function preload()
     preloadLuffy();
     preloadClothes();
     earthIMG = loadImage("earth.png");
-    
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   socket = io.connect('http://dsscameras.ddns.net:8000');
-  ground = createSprite(0, 2000, 5000, 40);
+  //ground = createSprite(0, 2000, 5000, 40);
+  generateTerrain();
   bullets = new Group();
   player = new Player(windowWidth/2, windowHeight/2);  
-  Environment();
+  //Environment();
   //startMP();
   socket.on('newPlayerServer', newPlayer);
   socket.on('updatePlayers', displayPlayers);
