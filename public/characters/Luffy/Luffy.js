@@ -8,6 +8,7 @@ function preloadLuffy(){
 }
 
 function Luffy(x, y){
+  this.character = "Luffy";
   this.playerSprites = new Group();
   this.playerID;
   this.HP = 100;
@@ -69,7 +70,7 @@ function Luffy(x, y){
     {
         var clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
         clone.addImage(playerIMG);
-        clone.collide(blocks);
+        clone.collide(ground);
         clone.HP = 100;
         this.clones.add(clone);
         this.nrClones++;
@@ -79,7 +80,7 @@ function Luffy(x, y){
   this.updateClones = function(){
     for(var i=0; i<this.clones.size(); i++)
     {
-        if(this.clones.collide(blocks))
+        if(this.clones.collide(ground))
         {
             this.clones.get(i).velocity.x = 0;
             this.clones.get(i).velocity.y = 0;
@@ -103,17 +104,17 @@ function Luffy(x, y){
   }
 
   this.updatePlayer = function(){
-    if(this.s.collide(blocks))
+    if(this.s.collide(ground))
     {
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    
     }    
 
-    if(this.s.getAnimationLabel() != 'attack'){
-      this.s.changeAnimation('standing');
+    if(this.sBody.getAnimationLabel() != 'attack'){
+      this.sBody.changeAnimation('standing');
       this.suit.changeAnimation('standing');
     }
-    if(this.s.getAnimationLabel() == 'attack' && this.s.animation.getFrame() == 5){
+    if(this.sBody.getAnimationLabel() == 'attack' && this.sBody.animation.getFrame() == 5){
       this.s.overlap(player.clones, function(s,clone){
         var damage = 25 * player.power;
         clone.HP -= damage;

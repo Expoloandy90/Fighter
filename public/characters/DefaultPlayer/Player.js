@@ -10,6 +10,7 @@ function preloadPlayer(){
 }
 
 function Player(x, y){
+  this.character = "Player";
   this.playerSprites = new Group();
   this.playerID;
   this.HP = 100;
@@ -28,8 +29,8 @@ function Player(x, y){
   this.hat = createSprite(this.s.position.x, this.s.position.y);
   this.hat.addImage(hatIMG);
   this.axe = createSprite(this.s.position.x, this.s.position.y);
-  this.axe.addAnimation('walking', axe_anim);
   this.axe.addAnimation('standing', loadImage("characters/guns/defaultStick.png"));
+  this.axe.addAnimation('walking', axe_anim);
 
   this.remove = function(){
     this.playerSprites.add(this.s);
@@ -79,7 +80,7 @@ function Player(x, y){
     {
         var clone = createSprite(random(player.s.position.x-100, player.s.position.x+100), random(player.s.position.y-100, player.s.position.y));
         clone.addImage(playerIMG);
-        clone.collide(blocks);
+        clone.collide(ground);
         clone.HP = 100;
         this.clones.add(clone);
         this.nrClones++;
@@ -89,7 +90,7 @@ function Player(x, y){
   this.updateClones = function(){
     for(var i=0; i<this.clones.size(); i++)
     {
-        if(this.clones.collide(blocks))
+        if(this.clones.collide(ground))
         {
             this.clones.get(i).velocity.x = 0;
             this.clones.get(i).velocity.y = 0;
@@ -114,7 +115,7 @@ function Player(x, y){
   }
 
   this.updatePlayer = function(){
-    if(this.s.collide(blocks))
+    if(this.s.collide(ground))
     {
       this.s.velocity.x = 0;
       this.s.velocity.y = 0;    

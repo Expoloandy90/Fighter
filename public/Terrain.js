@@ -4,7 +4,7 @@ function generateTerrain(){
 
   blocks = new Group();
   var prevYpos = 20;
-  for(var j=1; j<=50; j++)
+  for(var j=1; j<=20; j++)
   {
 	  var yPos = random(prevYpos-1, prevYpos+1);
 	  while(yPos >20)

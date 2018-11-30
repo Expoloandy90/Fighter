@@ -13,19 +13,18 @@ function preload()
     preloadGoku();
     preloadLuffy();
     preloadClothes();
-    generateTerrain();
+    //generateTerrain();
     earthIMG = loadImage("earth.png");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   socket = io.connect('http://dsscameras.ddns.net:8000');
-  //ground = createSprite(0, 2000, 5000, 40);
-  generateTerrain();
+  ground = createSprite(0, 2000, 5000, 40);
   bullets = new Group();
   player = new Player(windowWidth/2, windowHeight/2);  
-  //Environment();
-  //startMP();
+  Environment();
+  startMP();
   socket.on('newPlayerServer', newPlayer);
   socket.on('updatePlayers', displayPlayers);
 }
@@ -33,9 +32,9 @@ function setup() {
 
 
 function draw() {
-  if(player.s.position.y < 2000 &&  player.s.position.y > 0)
+  //if(player.s.position.y < 2000 &&  player.s.position.y > 0)
     background('rgb(135,206,250)');
-  else background('rgb(25,25,112)');
+  //else background('rgb(25,25,112)');
 
   if(characterChosen == 0){
     
@@ -44,12 +43,12 @@ function draw() {
     camera.rotation = player.s.rotation;
 
     player.clones.displace(bullets, Hit);
-    blocks.displace(bullets, distroy);
+    //blocks.displace(bullets, distroy);
     player.updatePlayer();
 
     sendToServer();
     drawSprites();
-    updateTerrain();
+    //updateTerrain();
     camera.off();
     UI();
   }
