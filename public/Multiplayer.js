@@ -7,7 +7,7 @@ function sendToServer(){
     y : player.s.position.y,
     scale : player.s.scale,
     rotation : player.s.rotation,
-    
+    sBodyAnimation: player.sBody.getAnimationLabel()    
   }
   socket.emit('playerUpdate', data);
 }
@@ -71,6 +71,7 @@ function displayPlayers(data){
         mPlayers[j].s.position.y = data[i].y;
         mPlayers[j].s.scale = data[i].scale;
         mPlayers[j].s.rotation = data[i].rotation;
+        mPlayers[j].sBody.changeAnimation(data[i].sBodyAnimation);
         mPlayers[j].updatePlayer();
       }
     }

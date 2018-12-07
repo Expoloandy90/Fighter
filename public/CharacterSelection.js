@@ -3,13 +3,13 @@ var characterChosen = 1;
 function CharacterSelection(){
 	background('rgb(135,206,250)');
 	
-	if(keyWentDown(LEFT_ARROW)){
+	if(keyWentDown('a')){
 		player.remove();
 		if(characterChosen > 1)
 			characterChosen--;
 		displayCharacters();
 	}
-	if(keyWentDown(RIGHT_ARROW)){
+	if(keyWentDown('d')){
 		player.remove();
 		if(characterChosen < 3)
 			characterChosen++;
@@ -26,9 +26,11 @@ function CharacterSelection(){
 	}
 
 	if(keyWentDown(ENTER)){
-		player.s.position.x = random(-1000, 1000);
-		player.s.position.y = random(1500, 2000);
+		player.s.position.x = 50/*random(-1000, 1000)*/;
+		player.s.position.y = 1500/*random(1500, 2000)*/;
 		characterChosen = 0;
+		name = input.value();
+		input.remove();
 	}
 	//player.updatePlayer();
 	player.s.position.x = windowWidth/2;
@@ -39,7 +41,7 @@ function CharacterSelection(){
 	textSize(30);
 	textStyle(BOLD);
 	textAlign(CENTER);
-	text(" select LEFT_ARROW or RIGHT_ARROW, choose ENTER", windowWidth/2, windowHeight/2 + 200);
+	text(" select A or D, choose ENTER", windowWidth/2, windowHeight/2 + 200);
 
 	drawSprites();
 }

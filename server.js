@@ -20,6 +20,7 @@ function Player(id){
     this.y; 
     this.scale;
     this.rotation;
+    this.sBodyAnimation;
 }
 
 io.sockets.on('connection', newConnection);
@@ -34,6 +35,7 @@ function newConnection(socket){
 		player.y = data.y;
 		player.scale = data.scale;
 		player.rotation = data.rotation;
+		player.sBodyAnimation = data.sBodyAnimation;
 		players.push(player);
 		socket.broadcast.emit('newPlayerServer', players);
 	}
@@ -46,6 +48,7 @@ function newConnection(socket){
 				players[i].y = data.y;
 				players[i].scale = data.scale;
 				players[i].rotation = data.rotation;
+				players[i].sBodyAnimation = data.sBodyAnimation;
 			}
 		}
 		socket.emit('updatePlayers', players);

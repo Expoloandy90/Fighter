@@ -1,5 +1,4 @@
 var blocks;
-var blocksData = [];
 
 function generateTerrain(){
 
@@ -24,11 +23,9 @@ function generateTerrain(){
 
 function updateTerrain(){
 	for(var i=0; i<blocks.size(); i++){
-		if(player.s.position.x + 100 && player.s.position.x - 100 /*&& 
+		if(blocks.get(i).position.x < (player.s.position.x + windowWidth/2 + 50) && 
+			blocks.get(i).position.x > (player.s.position.x - windowWidth/2 - 50) /*&& 
 			blocks.get(i).position.y < (player.s.position.y + windowHeight/2 + 50)*/)
-			if(blocksData.length == 0){
-				var blockPosition = 
-			}
 			
 			blocks.get(i).visible = true;
 		else blocks.get(i).visible = false;

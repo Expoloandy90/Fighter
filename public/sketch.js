@@ -3,8 +3,9 @@ var player2;
 var gravity = 1;
 var ground;
 var earthIMG;
-
 var socket;
+var input, button, greeting;
+var name;
 
 function preload()
 {
@@ -25,6 +26,8 @@ function setup() {
   player = new Player(windowWidth/2, windowHeight/2);  
   Environment();
   startMP();
+  input = createInput("Your name", "name");
+  input.position(windowWidth/2 - 90, windowHeight/2 - 200);
   socket.on('newPlayerServer', newPlayer);
   socket.on('updatePlayers', displayPlayers);
 }
@@ -37,6 +40,7 @@ function draw() {
   //else background('rgb(25,25,112)');
 
   if(characterChosen == 0){
+    input.hide();
     
     camera.position.x = player.s.position.x;
     camera.position.y = player.s.position.y;
@@ -76,6 +80,7 @@ function UI(){
   fill('rgb(0, 0, 255)');
   if(player.energy != undefined)
   text("Energy " + player.energy, 100, 150);
+  text(name, windowWidth/2, windowHeight - windowHeight + 50);
 }
 
 // pop - Removes from the End of an Array
