@@ -38,10 +38,8 @@ function draw() {
   //if(player.s.position.y < 2000 &&  player.s.position.y > 0)
     background('rgb(135,206,250)');
   //else background('rgb(25,25,112)');
-
-  if(characterChosen == 0){
-    input.hide();
-    
+  if(characterChosen != 0){
+   
     camera.position.x = player.s.position.x;
     camera.position.y = player.s.position.y;
     camera.rotation = player.s.rotation;
@@ -54,6 +52,7 @@ function draw() {
     drawSprites();
     //updateTerrain();
     camera.off();
+    UpdateMobileUI();
     UI();
   }
   else CharacterSelection();

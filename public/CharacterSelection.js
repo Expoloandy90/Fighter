@@ -32,6 +32,13 @@ function CharacterSelection(){
 		name = input.value();
 		input.remove();
 	}
+	if(mouseWentDown(LEFT)){
+		player.s.position.x = 50/*random(-1000, 1000)*/;
+		player.s.position.y = 1500/*random(1500, 2000)*/;
+		characterChosen = 0;
+		name = input.value();
+		input.remove();
+	}
 	//player.updatePlayer();
 	player.s.position.x = windowWidth/2;
 	player.s.position.y = windowHeight/2;
