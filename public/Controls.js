@@ -2,14 +2,26 @@
 
 function Controls(){
   //Player 1
-    if(keyDown('d'))
-      player.move(player.moveSpeed);
-    if(keyDown('a'))
-      player.move(-player.moveSpeed);
-    if(keyWentDown('w'))
-      player.jump();
-    if(keyWentDown('r'))
-      player.cloning();
+  if(keyDown('d')){
+    player.move(player.moveSpeed);
+    player.movingAnimation(1);
+  }
+
+  if(keyDown('a')){
+    player.move(-player.moveSpeed);
+    player.movingAnimation(1);
+  }
+
+  if(!keyDown('d') && !keyDown('a') && moving == 0){
+    player.movingAnimation(0);
+  }
+
+  if(keyWentDown('w'))
+    player.jump();
+
+  if(keyWentDown('r'))
+    player.cloning();
+    
 
   if(mouseWentDown(LEFT))
     Beam();

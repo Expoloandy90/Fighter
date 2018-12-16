@@ -21,6 +21,7 @@ function Player(id){
     this.scale;
     this.rotation;
     this.sBodyAnimation;
+    this.direction;
 }
 
 io.sockets.on('connection', newConnection);
@@ -36,6 +37,7 @@ function newConnection(socket){
 		player.scale = data.scale;
 		player.rotation = data.rotation;
 		player.sBodyAnimation = data.sBodyAnimation;
+		player.direction = data.direction;
 		players.push(player);
 		socket.broadcast.emit('newPlayerServer', players);
 	}
@@ -49,6 +51,7 @@ function newConnection(socket){
 				players[i].scale = data.scale;
 				players[i].rotation = data.rotation;
 				players[i].sBodyAnimation = data.sBodyAnimation;
+				players[i].direction = data.direction;
 			}
 		}
 		socket.emit('updatePlayers', players);
@@ -56,9 +59,12 @@ function newConnection(socket){
 
 	socket.on('disconnect', function(){
 		for(var i=0; i<players.length; i++)
-			if(players[i].playerID == socket.id)
+			if(players[i].playerID == socket.id){
+				console.log(socket.id + ' disconnected');
+				socket.broadcast.emit('disconnectPlayer', players[i].playerID);
 				players.splice(i, 1);
-    console.log('user disconnected');
+			}
+    
 
   });
 }

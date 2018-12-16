@@ -33,25 +33,34 @@ function Player(x, y){
   this.axe.addAnimation('walking', axe_anim);
 
   this.remove = function(){
-    this.playerSprites.add(this.s);
+    this.playerSprites.add(this.sBody);
     this.playerSprites.add(this.hat);
     this.playerSprites.add(this.axe);
     this.playerSprites.removeSprites();
   }
 
+  this.movingAnimation = function(move){
+    if(move == 1){
+      this.sBody.changeAnimation('walking');
+      this.axe.changeAnimation('walking');
+    }
+    else{
+      //Changing punch animation
+      if(this.sBody.getAnimationLabel() != 'attack'){
+        this.sBody.changeAnimation('standing');
+        this.axe.changeAnimation('standing');
+      }
+    }
+  }
+
   this.move = function(dir){
     this.s.velocity.x += dir;
     if(this.s.velocity.x > 0){
-      this.sBody.changeAnimation('walking');
-      this.axe.changeAnimation('walking');
-      this.sBody.mirrorX(1);
+      this.s.mirrorX(1);
       this.axe.mirrorX(1);
     }
     else if(this.s.velocity.x < 0){
-      this.sBody.changeAnimation('walking');
-      this.axe.changeAnimation('walking');
-      this.sBody.mirrorX(-1);
-      this.axe.mirrorX(-1);
+      this.s.mirrorX(-1);
     }
   }
 
@@ -118,25 +127,21 @@ function Player(x, y){
     if(this.s.collide(ground))
     {
       this.s.velocity.x = 0;
-      this.s.velocity.y = 0;    
+      //this.s.velocity.y = 0;    
     }
+    
     this.s.velocity.x = 0;
 
     this.sBody.position.x = this.s.position.x;
     this.sBody.position.y = this.s.position.y;
+    this.sBody.mirrorX(this.s.mirrorX());
 
     this.hat.position.x = this.s.position.x;
     this.hat.position.y = this.s.position.y;
     this.axe.position.x = this.s.position.x;
     this.axe.position.y = this.s.position.y;
-    
-
-    
-
-    //Changing punch animation
-    if(this.sBody.getAnimationLabel() != 'attack'){
-      this.sBody.changeAnimation('standing');
-    }
+    this.axe.mirrorX(this.s.mirrorX());
+        
     if(this.sBody.getAnimationLabel() == 'attack' && this.sBody.animation.getFrame() == 5){
       this.sBody.overlap(player.clones, function(s,clone){
         var damage = 25 * player.power;
@@ -145,10 +150,7 @@ function Player(x, y){
       this.sBody.animation.nextFrame();
       this.sBody.animation.play();
     }
-    this.axe.changeAnimation('standing');
-
-    
-    
+  
     player.s.velocity.y += gravity;
     this.updateClones();
     Controls();

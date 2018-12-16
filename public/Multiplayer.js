@@ -7,7 +7,8 @@ function sendToServer(){
     y : player.s.position.y,
     scale : player.s.scale,
     rotation : player.s.rotation,
-    sBodyAnimation: player.sBody.getAnimationLabel()    
+    sBodyAnimation: player.sBody.getAnimationLabel(),
+    direction: player.s.mirrorX()    
   }
   socket.emit('playerUpdate', data);
 }
@@ -31,6 +32,7 @@ function newPlayer(data){
         var ceva = new Player(data[i].x, data[i].y);
       ceva.playerID = data[i].playerID;
       ceva.s.rotation = data[i].rotation;
+      ceva.s.mirrorX(data[i].direction);
       mPlayers.push(ceva);
       }
     }
@@ -46,6 +48,7 @@ function newPlayer(data){
         ceva.s.position.x = data[data.length - 1].x;
         ceva.s.position.y = data[data.length - 1].y;
         ceva.s.rotation = data[data.length - 1].rotation;
+        ceva.s.mirrorX(data[data.length - 1].direction);
         mPlayers.push(ceva);
       }  
     }
@@ -59,6 +62,7 @@ function displayPlayers(data){
         var ceva = new Player(data[i].x, data[i].y);
       ceva.playerID = data[i].playerID;
       ceva.s.rotation = data[i].rotation;
+      ceva.s.mirrorX(data[i].direction);
       mPlayers.push(ceva);
       }
     }
@@ -72,8 +76,17 @@ function displayPlayers(data){
         mPlayers[j].s.scale = data[i].scale;
         mPlayers[j].s.rotation = data[i].rotation;
         mPlayers[j].sBody.changeAnimation(data[i].sBodyAnimation);
+        mPlayers[j].s.mirrorX(data[i].direction);
         mPlayers[j].updatePlayer();
       }
     }
+  }
+}
+
+function disconnectPlayer(id){
+  for(var i=0; i<mPlayers.length; i++){
+    if(mPlayers[i].playerID == id)
+      mPlayers[i].remove();
+      mPlayers.splice(i, 1);
   }
 }
